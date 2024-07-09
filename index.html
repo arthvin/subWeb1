@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estados do Brasil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            margin: 0;
+        }
+        header {
+            background-color: #047ae0;
+            padding: 10px;
+            color: white;
+        }
+        footer {
+            background-color: #444;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        main {
+            padding: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li a {
+            color: #444;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        li a:hover {
+            opacity: 0.8;
+        }
+        .link-favoritos {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Estados do Brasil</h1>
+        <a class="link-favoritos" href="./favoritos/index.html">Ver favoritos</a>
+    </header>
+    <main>
+        <ul id="estado-lista"></ul>
+    </main>
+    <footer>
+        © 2024 Prova SUB de Programação Web
+    </footer>
+
+    <script>
+        fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+            .then(response => response.json())
+            .then(data => {
+                const lista = document.getElementById('estado-lista');
+                data.forEach(estado => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = `./municipios/index.html?uf=${estado.sigla}`;
+                    a.textContent = estado.nome;
+                    li.appendChild(a);
+                    lista.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>

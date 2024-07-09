@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municípios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            margin: 0;
+        }
+        header {
+            background-color: #047ae0;
+            padding: 10px;
+            color: white;
+        }
+        footer {
+            background-color: #444;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        main {
+            padding: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        button {
+            background-color: #edd83b;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .link-home {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="titulo-municipios">Municípios de </h1>
+        <a class="link-home" href="../index.html">Ir para a home</a>
+        <a class="link-home" href="../favoritos/index.html">Ver favoritos</a>
+    </header>
+    <main>
+        <ul id="municipio-lista"></ul>
+    </main>
+    <footer>
+        © 2024 Prova SUB de Programação Web
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const uf = urlParams.get('uf');
+        document.getElementById('titulo-municipios').textContent += uf;
+
+        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
+            .then(response => response.json())
+            .then(data => {
+                const lista = document.getElementById('municipio-lista');
+                data.forEach(municipio => {
+                    const li = document.createElement('li');
+                    li.textContent = municipio.nome;
+                    const button = document.createElement('button');
+                    button.textContent = 'Favoritar';
+                    button.onclick = () => {
+                        let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+                        favoritos.push(municipio);
+                        localStorage.setItem('favoritos', JSON.stringify(favoritos));
+                    };
+                    li.appendChild(button);
+                    lista.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>

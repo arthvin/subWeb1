@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            margin: 0;
+        }
+        header {
+            background-color: #047ae0;
+            padding: 10px;
+            color: white;
+        }
+        footer {
+            background-color: #444;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        main {
+            padding: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        .link-home {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Favoritos</h1>
+        <a class="link-home" href="../index.html">Ir para a home</a>
+    </header>
+    <main>
+        <ul id="favoritos-lista"></ul>
+    </main>
+    <footer>
+        © 2024 Prova SUB de Programação Web
+    </footer>
+
+    <script>
+        const lista = document.getElementById('favoritos-lista');
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+        favoritos.forEach(municipio => {
+            const li = document.createElement('li');
+            li.textContent = municipio.nome;
+            lista.appendChild(li);
+        });
+    </script>
+</body>
+</html>
